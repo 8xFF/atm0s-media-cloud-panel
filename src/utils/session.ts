@@ -8,7 +8,7 @@ export const getSession = async (): Promise<AuthUser | null> => {
   if (!tokenCookie || !tokenCookie.value) return null
   const user = await getPrisma().user.findFirst({
     where: {
-      sessions: {
+      Session: {
         some: {
           sessionToken: tokenCookie.value,
         },

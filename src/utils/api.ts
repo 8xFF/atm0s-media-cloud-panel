@@ -55,7 +55,7 @@ export const NextAuthGuard = createMiddlewareDecorator(
     }
     const user = await getPrisma().user.findFirst({
       where: {
-        sessions: {
+        Session: {
           some: {
             sessionToken: tokenCookie,
           },
