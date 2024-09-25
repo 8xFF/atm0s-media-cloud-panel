@@ -17,5 +17,6 @@
   "importOrderSortSpecifiers": true,
   "importOrderCaseInsensitive": true,
   "importOrder": ["^@[a-z](.*)$", "^@/(.*)$"],
+  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
   "tailwindFunctions": ["cn", "tv", "cx", "clsx", "cva"]
 }

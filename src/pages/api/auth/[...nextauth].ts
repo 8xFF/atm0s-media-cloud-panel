@@ -8,6 +8,12 @@ import { getPrisma } from '@/utils/prisma'
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(getPrisma()),
   secret: envServer.NEXTAUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+  },
+  jwt: {
+    secret: envServer.NEXTAUTH_SECRET,
+  },
   providers: [
     GoogleProvider({
       clientId: envServer.GOOGLE_CLIENT_ID,
@@ -19,6 +25,17 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
+    jwt: async ({ token, user, account }) => {
+      if (account && user) {
+        return {
+          accessToken: account.accessToken,
+          // accessTokenExpires: Date.now() + account.expires_at * 1000,
+          user,
+        }
+      }
+
+      return token
+    },
     session: async ({ user, session }: any) => {
       if (user) {
         session.user.role = user.role
