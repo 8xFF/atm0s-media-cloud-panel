@@ -2,11 +2,7 @@
 
 import { listPlan } from './const'
 import { map } from 'lodash'
-import {
-  Check,
-  CircleAlert,
-  MoreHorizontal,
-} from 'lucide-react'
+import { Check, CircleAlert, MoreHorizontal } from 'lucide-react'
 import moment from 'moment'
 import {
   Button,

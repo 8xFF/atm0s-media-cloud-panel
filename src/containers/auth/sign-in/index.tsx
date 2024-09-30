@@ -9,7 +9,7 @@ export const SignIn = () => {
       <div className="flex flex-col items-center justify-center gap-10 py-12">
         <div className="flex w-full flex-col items-center justify-center gap-4">
           <img src="/logo.svg" alt="" className="w-[100px] rounded border" />
-          <p className="text-balance text-center text-white text-muted-foreground">
+          <p className="text-balance text-center text-muted-foreground text-white">
             A cloud-managed global media network built on LiveKit&apos;s open source WebRTC stack.
           </p>
         </div>
@@ -26,7 +26,7 @@ export const SignIn = () => {
             </h1>
             <p className="text-balance text-muted-foreground">Login or register with the options below</p>
           </div>
-          <div className="grid gap-4 w-full md:w-[350px]">
+          <div className="grid w-full gap-4 md:w-[350px]">
             <Button
               type="submit"
               variant="outline"

@@ -35,13 +35,13 @@ export const Sessions = () => {
             <Card className="w-full sm:col-span-2" x-chunk="dashboard-05-chunk-0">
               <CardHeader className="pb-3">
                 <CardTitle className="uppercase text-[#ffffff66]">ACTIVE PARTICIPANTS</CardTitle>
-                <CardDescription className="max-w-lg text-balance leading-relaxed text-[#59a08c] text-lg">0</CardDescription>
+                <CardDescription className="max-w-lg text-balance text-lg leading-relaxed text-[#59a08c]">0</CardDescription>
               </CardHeader>
             </Card>
             <Card className="w-full sm:col-span-2" x-chunk="dashboard-05-chunk-0">
               <CardHeader className="pb-3">
                 <CardTitle className="uppercase text-[#ffffff66]">ACTIVE ROOMS</CardTitle>
-                <CardDescription className="max-w-lg text-balance leading-relaxed text-[#59a08c] text-lg">0</CardDescription>
+                <CardDescription className="max-w-lg text-balance text-lg leading-relaxed text-[#59a08c]">0</CardDescription>
               </CardHeader>
             </Card>
           </div>

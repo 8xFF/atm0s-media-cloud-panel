@@ -264,7 +264,7 @@ export const Setting = () => {
                     <TabsTrigger value="personal-Keys">Personal Keys</TabsTrigger>
                     <TabsTrigger value="other-keys">Other Keys</TabsTrigger>
                   </TabsList>
-                  <div className=" w-full flex flex-col items-start gap-2 md:flex-row md:items-center md:gap-4">
+                  <div className="flex w-full flex-col items-start gap-2 md:flex-row md:items-center md:gap-4">
                     <Dialog>
                       <DialogTrigger asChild>
                         <Button variant="outline" className="uppercase text-[#59a08c]">
@@ -292,7 +292,7 @@ export const Setting = () => {
                         </div>
                       </DialogContent>
                     </Dialog>
-                    <div className="flex items-center gap-1 w-full">
+                    <div className="flex w-full items-center gap-1">
                       <div className="w-[120px]">
                         <Select value="description">
                           <SelectTrigger id="category" aria-label="Actions">
@@ -463,10 +463,13 @@ export const Setting = () => {
                 </p>
                 <div className="flex w-full flex-col gap-4">
                   {map(listEndpoints, (endpoint) => (
-                    <div key={endpoint.apiKey} className="flex w-full items-center justify-between border-b-[1px] pb-2 gap-2">
+                    <div
+                      key={endpoint.apiKey}
+                      className="flex w-full items-center justify-between gap-2 border-b-[1px] pb-2"
+                    >
                       <div className="flex flex-col">
                         <span>{endpoint.name}</span>
-                        <span className="text-[#666666] line-clamp-1">
+                        <span className="line-clamp-1 text-[#666666]">
                           {endpoint.url} - signedwith {endpoint.apiKey}
                         </span>
                       </div>

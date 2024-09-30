@@ -15,12 +15,12 @@ export const CreateApp = () => {
           }}
         ></div>
         <div className="flex flex-col items-center justify-center gap-3">
-          <p className="text-balance text-center text-white text-2xl">Create your first app</p>
+          <p className="text-balance text-center text-2xl text-white">Create your first app</p>
           <p className="text-center text-sm text-[#e3e1e1]">
             You will be brought to your project dashboard after creating your application.
           </p>
           <div className="flex w-full flex-col justify-start">
-            <p className="mb-2 uppercase text-xs text-white">app name</p>
+            <p className="mb-2 text-xs uppercase text-white">app name</p>
 
             <Input placeholder="App name" className="border-transparent focus-visible:ring-transparent" />
             <div className="mb-4 border-[0.5px]"></div>

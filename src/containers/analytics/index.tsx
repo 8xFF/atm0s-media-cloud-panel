@@ -1,12 +1,12 @@
 'use client'
 
 import { listData1, listListConnection, TypeListConnection } from './const'
+import { map } from 'lodash'
+import { CircleAlert } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Layout } from '@/layouts'
-import { map } from 'lodash'
-import { CircleAlert } from 'lucide-react'
 
 export const Analytics = () => {
   return (
@@ -32,7 +32,7 @@ export const Analytics = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {map(listData1, (item) => (
+              {map(listData1, (item) => (
                 <Card key={item.title} className="flex flex-col justify-between">
                   <CardHeader>
                     <CardTitle>{item.title}</CardTitle>
@@ -114,7 +114,7 @@ export const Analytics = () => {
                     <p>{item.title}</p>
                     <Tooltip>
                       <TooltipTrigger asChild>
-                      <CircleAlert width={16} height={16}  />
+                        <CircleAlert width={16} height={16} />
                       </TooltipTrigger>
                       <TooltipContent side="right">{item.tooltip}</TooltipContent>
                     </Tooltip>
@@ -127,14 +127,14 @@ export const Analytics = () => {
           <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between border-b-[1px]">
               Bandwidth
-              <CircleAlert width={16} height={16}/>
+              <CircleAlert width={16} height={16} />
             </CardHeader>
             <CardContent className="flex w-full flex-col-reverse items-center justify-between gap-4 pt-6 lg:flex-row">
               <div className="flex w-full lg:w-2/3">Chart</div>
               <div className="flex w-full flex-col gap-4 md:flex-row lg:w-1/3 lg:flex-col">
                 <Card className="w-full">
                   <CardHeader>
-                    <CardTitle className="flex flex-row items-center justify-between gap-2 text-sm text-[#666666] uppercase">
+                    <CardTitle className="flex flex-row items-center justify-between gap-2 text-sm uppercase text-[#666666]">
                       OVERALL UPSTREAM
                     </CardTitle>
                     <CardDescription className="flex max-w-lg flex-row items-end text-balance leading-relaxed">
@@ -145,11 +145,11 @@ export const Analytics = () => {
                 </Card>
                 <Card className="w-full">
                   <CardHeader>
-                    <CardTitle className="flex flex-row items-center justify-between gap-2 text-sm text-[#666666] uppercase">
+                    <CardTitle className="flex flex-row items-center justify-between gap-2 text-sm uppercase text-[#666666]">
                       OVERALL DOWNSTREAM
                     </CardTitle>
                     <CardDescription className="flex max-w-lg flex-row items-end text-balance leading-relaxed">
-                    <span className="text-xl text-[#59a08c]">0</span>
+                      <span className="text-xl text-[#59a08c]">0</span>
                       <span className="mb-[2px] text-sm uppercase text-[#59a08c]">MB</span>
                     </CardDescription>
                   </CardHeader>
@@ -160,7 +160,7 @@ export const Analytics = () => {
           <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between border-b-[1px]">
               Users
-              <CircleAlert width={16} height={16}/>
+              <CircleAlert width={16} height={16} />
             </CardHeader>
             <CardContent className="flex w-full flex-col-reverse items-center justify-between gap-4 pt-6 lg:flex-row">
               <div className="flex w-full lg:w-2/3">Chart</div>
@@ -178,7 +178,7 @@ export const Analytics = () => {
           <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between border-b-[1px]">
               Rooms
-              <CircleAlert width={16} height={16}/>
+              <CircleAlert width={16} height={16} />
             </CardHeader>
             <CardContent className="flex w-full flex-col items-center justify-between gap-4 pt-6 lg:flex-row">
               <div className="flex w-full flex-col gap-4 md:flex-row lg:w-1/3 lg:flex-col">
@@ -207,7 +207,7 @@ export const Analytics = () => {
           <Card className="w-full">
             <CardHeader className="flex flex-row items-center justify-between border-b-[1px]">
               Egress
-              <CircleAlert width={16} height={16}/>
+              <CircleAlert width={16} height={16} />
             </CardHeader>
             <CardContent className="flex w-full flex-col items-center justify-between gap-4 pt-6 lg:flex-row">
               <div className="flex w-full flex-col gap-4 md:flex-row lg:w-1/3 lg:flex-col">

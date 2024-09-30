@@ -2,10 +2,9 @@
 
 import { Header, SidebarDesktop } from '.'
 import { map } from 'lodash'
-import { ChevronLeftIcon, Copy } from 'lucide-react'
+import { ChevronLeftIcon } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { usePathname } from 'next/navigation'
 import { Fragment } from 'react'
 import {
   Breadcrumb,
@@ -15,11 +14,6 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
   Button,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
 } from '@/components'
 
 type Props = {
@@ -35,20 +29,6 @@ type Props = {
 
 export const Layout: React.FC<Props> = ({ children, breadcrumbs, title, hasBackButton, extra }) => {
   const router = useRouter()
-  const pathname = usePathname()
-  const handleCopyToClipboard = async (content: string) => {
-    try {
-      await navigator.clipboard.writeText(content)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const checkShowFilter = () => {
-    const array = pathname?.split('/')
-    if (array && array[array?.length - 1] === 'analytics') return true
-    return false
-  }
-  const urlCopy = 'my-first-app-0u6dm2nk.livekit.cloud'
   return (
     <div className="flex min-h-screen w-full flex-col bg-muted/40 pb-6">
       <SidebarDesktop />
@@ -84,39 +64,6 @@ export const Layout: React.FC<Props> = ({ children, breadcrumbs, title, hasBackB
             </div>
             {extra}
           </div>
-          {/* <div className="flex w-full items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <span className="tex-sm text-[#ffffffcc]">{urlCopy}</span>
-              <Copy onClick={() => handleCopyToClipboard(urlCopy)} className="h-5 w-5 cursor-pointer" />
-            </div>
-            {checkShowFilter() && (
-              <div className="flex items-center justify-between gap-4">
-                <span className="tex-md uppercase text-[#ffffffcc]">Filter by</span>
-                <div className="w-fit">
-                  <Select>
-                    <SelectTrigger id="category" aria-label="Select" className="min-w-[100px] uppercase">
-                      <SelectValue placeholder="Select" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="24hour" className="uppercase">
-                        last 24 hour
-                      </SelectItem>
-                      <SelectItem value="last-7day" className="uppercase">
-                        last 7 days
-                      </SelectItem>
-                      <SelectItem value="last-28day" className="uppercase">
-                        last 28 days
-                      </SelectItem>
-                      <SelectItem value="this-month" className="uppercase">
-                        this month
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            )}
-          </div> */}
-          {/* <p className="text-3xl font-semibold text-white mb-4">My first app</p> */}
           {children}
         </main>
       </div>
