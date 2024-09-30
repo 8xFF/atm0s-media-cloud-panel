@@ -66,7 +66,7 @@ export const SidebarDesktop = () => {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link
-              href="#"
+              href="/setting"
               className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
             >
               <Settings size={20} />
