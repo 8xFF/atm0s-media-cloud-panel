@@ -65,3 +65,15 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Projects {
+  id         String   @id @default(cuid())
+  owner      String
+  name       String
+  options    Json
+  codecs     Json
+  projectUrl String   @map("project_url")
+  sipUri     String   @map("sip_uri")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+}
