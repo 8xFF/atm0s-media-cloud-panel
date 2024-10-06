@@ -38,6 +38,7 @@ export function error(error: string, message?: string): ApiResponse<any> {
 
 export const SessionUser = createParamDecorator<AuthUser>((req) => req.user)
 export const SessionUserId = createParamDecorator<string>((req) => (req as any).userId)
+export const ProjectId = createParamDecorator<string>((req) => req.query.projectId as string)
 
 export function ApiExceptionHandler(error: unknown, req: NextApiRequest, res: NextApiResponse) {
   const errorStr = error instanceof Error ? error.message : 'An unknown error occurred.'

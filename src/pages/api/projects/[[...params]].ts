@@ -4,7 +4,7 @@ import { ProjectCreateDto, ProjectInfo, ProjectUpdateDto, StatusResponseDto } fr
 import { NextAuthGuard, SessionUserId } from '@/utils/api'
 
 // @UseMiddleware(NextAuthGuard)
-export class ProjectRouters {
+class ProjectRouters {
   @Post('')
   @NextAuthGuard()
   async createProject(@Body(ValidationPipe) body: ProjectCreateDto, @SessionUserId() userId: string): Promise<ProjectInfo> {
@@ -42,7 +42,7 @@ export class ProjectRouters {
     //TODO: use for member to get project detail
     const project = await ProjectRepository.Instance.detail({
       id: projectId,
-      owner: userId,
+      userId,
     })
     if (!project) {
       throw new NotFoundException('Project not found')
