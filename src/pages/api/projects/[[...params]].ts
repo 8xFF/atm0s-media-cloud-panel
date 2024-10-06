@@ -1,8 +1,7 @@
 import { Body, createHandler, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe } from 'next-api-decorators'
-import { JsonValue } from '@prisma/client/runtime/library'
-import { ProjectCreateDto, ProjectInfo, ProjectUpdateDto } from '@/schema'
+import { ProjectRepository } from '@/repositories'
+import { ProjectCreateDto, ProjectInfo, ProjectUpdateDto, StatusResponseDto } from '@/schema'
 import { NextAuthGuard, SessionUserId } from '@/utils/api'
-import { getPrisma } from '@/utils/prisma'
 
 // @UseMiddleware(NextAuthGuard)
 export class ProjectRouters {
@@ -26,30 +25,25 @@ export class ProjectRouters {
     const projectUrl = 'local.media.8xff.com'
     const sipUri = 'sip:local.sip.8xff.com'
 
-    const prisma = getPrisma()
-    const project = (await prisma.projects.create({
-      data: {
-        name: body.name,
-        owner: userId,
-        projectUrl,
-        sipUri,
-        options: defaultOptions,
-        codecs: defaultCodecs,
-      },
-    })) as any
+    const project = ProjectRepository.Instance.create({
+      name: body.name,
+      owner: userId,
+      options: defaultOptions,
+      codec: defaultCodecs,
+      projectUrl,
+      sipUri,
+    })
     return project
   }
 
   @Get('/:projectId')
   @NextAuthGuard()
   async projectDetail(@Param('projectId') projectId: string, @SessionUserId() userId: string): Promise<ProjectInfo> {
-    const prisma = getPrisma()
-    const project = (await prisma.projects.findFirst({
-      where: {
-        id: projectId,
-        owner: userId,
-      },
-    })) as any
+    //TODO: use for member to get project detail
+    const project = await ProjectRepository.Instance.detail({
+      id: projectId,
+      owner: userId,
+    })
     if (!project) {
       throw new NotFoundException('Project not found')
     }
@@ -60,51 +54,22 @@ export class ProjectRouters {
   @NextAuthGuard()
   async updateProject(
     @Param('projectId') projectId: string,
-    @SessionUserId() userId: string,
     @Body(ValidationPipe) body: ProjectUpdateDto
   ): Promise<ProjectInfo> {
-    const prisma = getPrisma()
-    const project = (await prisma.projects.findFirst({
-      where: {
-        id: projectId,
-        owner: userId,
-      },
-    })) as any
-    if (!project) {
+    const res = await ProjectRepository.Instance.updateById(projectId, body)
+    if (!res) {
       throw new NotFoundException('Project not found')
     }
-
-    const updateData = {
-      name: body.name,
-      options: body.options,
-      codecs: body.codecs,
-    }
-
-    const updatedProject = (await prisma.projects.update({
-      where: {
-        id: projectId,
-      },
-      data: {
-        name: updateData.name,
-        options: (updateData.options as JsonValue) || undefined,
-        codecs: (updateData.codecs as JsonValue) || undefined,
-      },
-    })) as any
-    return updatedProject
+    return res
   }
 
   @Delete('/:projectId')
   @NextAuthGuard()
-  async deleteProject(@Param('projectId') projectId: string) {
-    const prisma = getPrisma()
-    const res = await prisma.projects.delete({
-      where: {
-        id: projectId,
-      },
-    })
+  async deleteProject(@Param('projectId') projectId: string): Promise<StatusResponseDto> {
+    const res = await ProjectRepository.Instance.deleteById(projectId)
 
     return {
-      status: res ? true : false,
+      status: res,
     }
   }
 }
