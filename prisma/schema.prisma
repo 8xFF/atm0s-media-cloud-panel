@@ -104,12 +104,13 @@ model ProjectMemberInvites {
 }
 
 model ProjectAccessKey {
-  id        Int      @id @default(autoincrement())
-  projectId String   @map("project_id")
-  apiKey    String   @map("api_key")
-  secretKey String   @map("secret_key")
-  userId    String   @map("user_id")
-  createdAt DateTime @default(now()) @map("created_at")
+  id          Int      @id @default(autoincrement())
+  projectId   String   @map("project_id")
+  apiKey      String   @unique @map("api_key")
+  secretKey   String   @map("secret_key")
+  userId      String   @map("user_id")
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
 
   project Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)

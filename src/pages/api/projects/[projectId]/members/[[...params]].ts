@@ -1,5 +1,5 @@
 import { BadRequestException, Body, createHandler, Get, NotFoundException, Post, ValidationPipe } from 'next-api-decorators'
-import { ProjectMemberInviteRepository, ProjectMemberRepository, ProjectRepository } from '@/repositories'
+import { ProjectMemberInviteRepository, ProjectMemberRepository } from '@/repositories'
 import { ProjectMemberCreateInviteDto, ProjectMemberInviteDto, ProjectMemberListDto, StatusResponseDto } from '@/schema'
 import { AuthUser, NextAuthGuard, ProjectGuard, ProjectId, SessionUser } from '@/utils/api'
 import { DAY } from '@/utils/time'
