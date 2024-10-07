@@ -69,17 +69,18 @@ model VerificationToken {
 }
 
 model Projects {
-  id               String             @id @default(cuid())
-  owner            String
-  name             String
-  options          Json
-  codecs           Json
-  projectUrl       String             @map("project_url")
-  sipUri           String             @map("sip_uri")
-  createdAt        DateTime           @default(now()) @map("created_at")
-  updatedAt        DateTime           @updatedAt @map("updated_at")
-  ProjectMembers   ProjectMembers[]
-  ProjectAccessKey ProjectAccessKey[]
+  id                   String                 @id @default(cuid())
+  owner                String
+  name                 String
+  options              Json
+  codecs               Json
+  projectUrl           String                 @map("project_url")
+  sipUri               String                 @map("sip_uri")
+  createdAt            DateTime               @default(now()) @map("created_at")
+  updatedAt            DateTime               @updatedAt @map("updated_at")
+  ProjectMembers       ProjectMembers[]
+  ProjectAccessKey     ProjectAccessKey[]
+  ProjectMemberInvites ProjectMemberInvites[]
 }
 
 model ProjectMembers {
@@ -90,6 +91,16 @@ model ProjectMembers {
 
   project Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ProjectMemberInvites {
+  id        String @id @default(cuid())
+  projectId String @map("project_id")
+  email     String
+  role      String
+  expireAt  BigInt @default(0)
+
+  project Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
 
 model ProjectAccessKey {

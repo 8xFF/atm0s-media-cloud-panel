@@ -1,7 +1,14 @@
-import { createMiddlewareDecorator, createParamDecorator, NextFunction, UnauthorizedException } from 'next-api-decorators'
+import {
+  createMiddlewareDecorator,
+  createParamDecorator,
+  NextFunction,
+  NotFoundException,
+  UnauthorizedException,
+} from 'next-api-decorators'
 import { getToken } from 'next-auth/jwt'
 import { NextApiRequest, NextApiResponse } from 'next/types'
 import { envServer } from '@/config/env-server'
+import { ProjectRepository } from '@/repositories'
 
 export interface GroupToken {
   server_endpoint: string
@@ -54,6 +61,21 @@ export const NextAuthGuard = createMiddlewareDecorator(
     }
 
     ;(req as any).userId = (token as any).user.id
+    ;(req as any).user = (token as any).user
+
+    return next()
+  }
+)
+
+export const ProjectGuard = createMiddlewareDecorator(
+  async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
+    const projectId = req.query.projectId as string
+    const userId = (req as any).userId
+
+    const project = await ProjectRepository.Instance.detail({ id: projectId, userId })
+    if (!project) {
+      throw new NotFoundException('Project not found')
+    }
 
     return next()
   }

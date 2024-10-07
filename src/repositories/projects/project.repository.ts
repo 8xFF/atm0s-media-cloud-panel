@@ -61,6 +61,13 @@ export class ProjectRepository {
     return this.toEntity(res)
   }
 
+  async list(filter: ProjectFilter): Promise<ProjectInfo[]> {
+    const res = await this.prismaCli.projects.findMany({
+      where: this.toQuery(filter),
+    })
+    return res.map(this.toEntity)
+  }
+
   async updateById(id: string, modify: Partial<ProjectCreateDto>): Promise<ProjectInfo | undefined> {
     const oldProject = await this.detail({ id })
     if (!oldProject) {
