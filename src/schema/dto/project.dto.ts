@@ -85,3 +85,9 @@ export class ProjectInfo {
   @Type(() => Codecs)
   codecs!: Codecs
 }
+
+export class ProjectList {
+  @ValidateNested({ each: true })
+  @Type(() => ProjectInfo)
+  list!: ProjectInfo[]
+}

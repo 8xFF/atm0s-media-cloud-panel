@@ -1,6 +1,6 @@
 import { Body, createHandler, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe } from 'next-api-decorators'
 import { ProjectRepository } from '@/repositories'
-import { ProjectCreateDto, ProjectInfo, ProjectUpdateDto, StatusResponseDto } from '@/schema'
+import { ProjectCreateDto, ProjectInfo, ProjectList, ProjectUpdateDto, StatusResponseDto } from '@/schema'
 import { NextAuthGuard, SessionUserId } from '@/utils/api'
 
 // @UseMiddleware(NextAuthGuard)
@@ -48,6 +48,15 @@ class ProjectRouters {
       throw new NotFoundException('Project not found')
     }
     return project
+  }
+
+  @Get('')
+  @NextAuthGuard()
+  async listProject(@SessionUserId() userId: string): Promise<ProjectList> {
+    const projects = await ProjectRepository.Instance.list({ userId })
+    return {
+      list: projects,
+    }
   }
 
   @Put('/:projectId')
