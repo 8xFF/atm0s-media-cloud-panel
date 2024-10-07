@@ -1,5 +1,6 @@
 import { Exclude, Type } from 'class-transformer'
-import { IsBoolean, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator'
+import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator'
+import { $Enums } from '@prisma/client'
 
 export class UserMemberInfo {
   @IsString()
@@ -38,8 +39,9 @@ export class ProjectMemberCreateInviteDto {
   @IsString()
   email!: string
 
+  @IsEnum($Enums.ProjectMemberRole)
   @IsString()
-  role!: string
+  role!: $Enums.ProjectMemberRole
 }
 
 export class ProjectMemberInviteDto {

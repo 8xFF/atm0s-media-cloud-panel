@@ -1,11 +1,11 @@
-import { Prisma } from '@prisma/client'
+import { $Enums, Prisma } from '@prisma/client'
 import { ProjectMemberInviteDto } from '@/schema'
 import { getPrisma } from '@/utils/prisma'
 
 type ProjectMemberInviteCreate = {
   projectId: string
   email: string
-  role: string
+  role: $Enums.ProjectMemberRole
   expireAt: number
 }
 

@@ -26,6 +26,13 @@ class ProjectMemberRouters {
     }
 
     const expireAt = Date.now() + 2 * DAY
+    const oldInvite = await ProjectMemberInviteRepository.Instance.getInvite({ projectId, email: body.email })
+    if (oldInvite) {
+      const deleted = await ProjectMemberInviteRepository.Instance.delete({ id: oldInvite.id })
+      if (!deleted) {
+        throw new BadRequestException('Cannot delete old invite')
+      }
+    }
     const res = await ProjectMemberInviteRepository.Instance.createInvite({
       projectId,
       email: body.email,

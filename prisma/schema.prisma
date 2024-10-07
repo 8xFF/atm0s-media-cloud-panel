@@ -83,6 +83,12 @@ model Projects {
   ProjectMemberInvites ProjectMemberInvites[]
 }
 
+enum ProjectMemberRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
 model ProjectMembers {
   id        Int    @id @default(autoincrement())
   projectId String @map("project_id")
@@ -94,11 +100,11 @@ model ProjectMembers {
 }
 
 model ProjectMemberInvites {
-  id        String @id @default(cuid())
-  projectId String @map("project_id")
+  id        String            @id @default(cuid())
+  projectId String            @map("project_id")
   email     String
-  role      String
-  expireAt  BigInt @default(0)
+  role      ProjectMemberRole @default(MEMBER)
+  expireAt  BigInt            @default(0)
 
   project Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
