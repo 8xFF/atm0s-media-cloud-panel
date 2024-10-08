@@ -1,7 +1,13 @@
 import { BadRequestException, Body, createHandler, Get, NotFoundException, Post, ValidationPipe } from 'next-api-decorators'
 import { ProjectMemberInviteRepository, ProjectMemberRepository } from '@/repositories'
-import { ProjectMemberCreateInviteDto, ProjectMemberInviteDto, ProjectMemberListDto, StatusResponseDto } from '@/schema'
-import { AuthUser, NextAuthGuard, ProjectGuard, ProjectId, SessionUser } from '@/utils/api'
+import {
+  AuthUser,
+  ProjectMemberCreateInviteDto,
+  ProjectMemberInviteDto,
+  ProjectMemberListDto,
+  StatusResponseDto,
+} from '@/schema'
+import { NextAuthGuard, ProjectGuard, ProjectId, SessionUser } from '@/utils/api'
 import { DAY } from '@/utils/time'
 
 class ProjectMemberRouters {
@@ -9,8 +15,25 @@ class ProjectMemberRouters {
   @NextAuthGuard()
   @ProjectGuard()
   async list(@ProjectId() projectId: string): Promise<ProjectMemberListDto> {
-    const res = await ProjectMemberRepository.Instance.list({ projectId })
-    return { list: res }
+    const listInvite = await ProjectMemberInviteRepository.Instance.listInvite({ projectId })
+    const listMember = await ProjectMemberRepository.Instance.list({ projectId })
+
+    const list = [...listMember]
+    listInvite.forEach((invite, i) => {
+      list.push({
+        id: i + 1,
+        projectId: invite.projectId,
+        userId: '',
+        user: {
+          email: invite.email,
+          name: '',
+        },
+        role: invite.role,
+        isPendingInvites: true,
+      })
+    })
+
+    return { list }
   }
 
   @Post('/invite')

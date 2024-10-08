@@ -1,6 +1,6 @@
-import { AuthUser } from './api'
 import { getPrisma } from './prisma'
 import { cookies } from 'next/headers'
+import { AuthUser } from '@/schema'
 
 export const getSession = async (): Promise<AuthUser | null> => {
   const cookieStore = cookies()

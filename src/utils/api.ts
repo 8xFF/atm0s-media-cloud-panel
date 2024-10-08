@@ -1,3 +1,4 @@
+import { validateSecretHash } from './hash'
 import {
   createMiddlewareDecorator,
   createParamDecorator,
@@ -8,18 +9,12 @@ import {
 import { getToken } from 'next-auth/jwt'
 import { NextApiRequest, NextApiResponse } from 'next/types'
 import { envServer } from '@/config/env-server'
-import { ProjectRepository } from '@/repositories'
+import { ProjectAccessKeyRepository, ProjectRepository, UserRepository } from '@/repositories'
+import { AuthUser } from '@/schema'
 
 export interface GroupToken {
   server_endpoint: string
   token: string
-}
-
-export class AuthUser {
-  id!: string
-  name!: string
-  email!: string
-  image!: string | null
 }
 
 declare module 'next' {
@@ -55,15 +50,47 @@ export function ApiExceptionHandler(error: unknown, req: NextApiRequest, res: Ne
 export const NextAuthGuard = createMiddlewareDecorator(
   async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
     const token = await getToken({ req, secret: envServer.NEXTAUTH_SECRET })
-    console.log('token', token)
-    if (!token) {
-      throw new UnauthorizedException('Unauthorized')
+    // console.log('token', token)
+    if (token) {
+      ;(req as any).userId = (token as any).user.id
+      ;(req as any).user = (token as any).user
+      return next()
     }
 
-    ;(req as any).userId = (token as any).user.id
-    ;(req as any).user = (token as any).user
+    if (req.headers['api-key'] && req.headers['secret-key']) {
+      const apiKey = req.headers['api-key'] as string
+      const secretKey = req.headers['secret-key'] as string
 
-    return next()
+      console.log('apiKey', apiKey)
+      console.log('secretKey', secretKey)
+
+      const keyEntity = await ProjectAccessKeyRepository.Instance.detail({
+        apiKey,
+      })
+
+      if (!keyEntity) {
+        // console.log('key not found')
+        throw new UnauthorizedException('Unauthorized')
+      }
+
+      const isValid = validateSecretHash(keyEntity.secretKey!, secretKey)
+      if (!isValid) {
+        // console.log('secret is not valid')
+        throw new UnauthorizedException('Unauthorized')
+      }
+
+      const user = await UserRepository.Instance.get({ id: keyEntity.userId })
+      if (!user) {
+        // console.log('user not found')
+        throw new UnauthorizedException('Unauthorized')
+      }
+
+      ;(req as any).userId = keyEntity.userId
+      ;(req as any).user = user
+      return next()
+    }
+
+    throw new UnauthorizedException('Unauthorized')
   }
 )
 

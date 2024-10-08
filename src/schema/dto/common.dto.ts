@@ -12,3 +12,10 @@ export class ListNumbericIdDto {
   @Type(() => Number)
   ids!: number[]
 }
+
+export class AuthUser {
+  id!: string
+  name!: string
+  email!: string
+  image!: string | null
+}
