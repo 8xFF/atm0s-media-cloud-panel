@@ -35,7 +35,7 @@ export const SidebarMobile = () => {
                 href={menu.href}
                 className={cn(
                   'flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground',
-                  includes(pathname, menu.href) ? 'bg-muted' : ''
+                  (includes(pathname, menu.href) && menu.href !== '/') || menu.href === pathname ? 'bg-muted' : ''
                 )}
               >
                 <menu.icon size={20} />

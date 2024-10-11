@@ -1,7 +1,7 @@
 'use client'
 
 import { includes, map } from 'lodash'
-import { BlocksIcon, ChartNetworkIcon, ClockIcon, CreditCardIcon, Settings } from 'lucide-react'
+import { BlocksIcon, ClockIcon, CreditCardIcon, Settings, TrendingUpIcon } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components'
@@ -11,8 +11,8 @@ import { ChangeTheme } from '@/providers'
 export const menus = [
   {
     title: 'Analytics',
-    href: '/analytics',
-    icon: ChartNetworkIcon,
+    href: '/',
+    icon: TrendingUpIcon,
   },
   {
     title: 'Sessions',
@@ -50,7 +50,9 @@ export const SidebarDesktop = () => {
                 href={menu.href}
                 className={cn(
                   'flex h-8 w-8 items-center justify-center rounded-lg transition-colors hover:text-foreground',
-                  includes(pathname, menu.href) ? 'bg-accent text-accent-foreground' : 'text-muted-foreground'
+                  (includes(pathname, menu.href) && menu.href !== '/') || menu.href === pathname
+                    ? 'bg-accent text-accent-foreground'
+                    : 'text-muted-foreground'
                 )}
               >
                 <menu.icon size={20} />

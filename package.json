@@ -11,7 +11,6 @@
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
     "@next-auth/prisma-adapter": "^1.0.7",
-    "@phosphor-icons/react": "^2.1.6",
     "@prisma/client": "^5.20.0",
     "@radix-ui/react-accordion": "^1.2.0",
     "@radix-ui/react-alert-dialog": "^1.1.1",
@@ -82,7 +81,6 @@
   "devDependencies": {
     "@commitlint/cli": "^17.6.6",
     "@commitlint/config-conventional": "^17.6.6",
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
@@ -98,6 +96,7 @@
     "orval": "^7.0.1",
     "postcss": "^8",
     "prettier": "^3.2.5",
+    "prettier-plugin-organize-imports": "^4.1.0",
     "prettier-plugin-packagejson": "^2.5.2",
     "prettier-plugin-tailwindcss": "^0.6.6",
     "tailwindcss": "^3.4.1",
