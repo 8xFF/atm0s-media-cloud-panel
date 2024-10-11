@@ -7,4 +7,6 @@ export const envServer = {
 
   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID as string,
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET as string,
+
+  DATABASE_LOGGER: (process.env.DATABASE_LOGGER || 'info,error').split(','),
 }
