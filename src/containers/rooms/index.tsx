@@ -22,7 +22,7 @@ import { Layout } from '@/layouts'
 
 export const Rooms = () => {
   return (
-    <Layout breadcrumbs={[]} title="Rooms">
+    <Layout>
       <div className="flex min-h-screen w-full flex-col">
         <main className="flex flex-col items-start gap-4 md:gap-8">
           <Tabs defaultValue="egresses" className="w-full">

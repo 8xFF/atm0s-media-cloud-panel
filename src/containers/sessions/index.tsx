@@ -27,7 +27,7 @@ import { Layout } from '@/layouts'
 
 export const Sessions = () => {
   return (
-    <Layout breadcrumbs={[]} title="Sessions">
+    <Layout>
       <div className="flex min-h-screen w-full flex-col">
         <p className="mb-4 text-3xl font-semibold text-white">My first app</p>
         <main className="flex flex-col items-start gap-4 md:gap-8">

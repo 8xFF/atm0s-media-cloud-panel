@@ -1,9 +1,9 @@
 'use client'
 
 import { listPlan } from './const'
+import dayjs from 'dayjs'
 import { map } from 'lodash'
 import { Check, CircleAlert, MoreHorizontal } from 'lucide-react'
-import moment from 'moment'
 import {
   Button,
   Card,
@@ -64,7 +64,7 @@ export const Billing = () => {
     }
   }
   return (
-    <Layout breadcrumbs={[]} title="Billing">
+    <Layout>
       <div className="flex min-h-screen w-full flex-col">
         <main className="flex flex-col items-start gap-4 md:gap-8">
           <div className="flex w-full flex-col items-center gap-4 md:flex-row">
@@ -88,7 +88,7 @@ export const Billing = () => {
             <Card className="w-full">
               <CardHeader className="">
                 <CardTitle className="flex flex-row items-center justify-between gap-2">
-                  <span className="text-sm uppercase text-[#666666]">BANDWIDTH IN {moment().format('MMMM')}</span>
+                  <span className="text-sm uppercase text-[#666666]">BANDWIDTH IN {dayjs().format('MMMM')}</span>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <CircleAlert width={16} height={16} />
@@ -191,7 +191,7 @@ export const Billing = () => {
           <Card className="w-full">
             <CardHeader className="border-b-[1px]">
               <CardTitle className="flex flex-row items-center justify-between gap-2">
-                <span className="font-sans text-base uppercase md:text-lg">{moment().format('MMMM')} Usage</span>
+                <span className="font-sans text-base uppercase md:text-lg">{dayjs().format('MMMM')} Usage</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="flex w-full flex-col pt-6">

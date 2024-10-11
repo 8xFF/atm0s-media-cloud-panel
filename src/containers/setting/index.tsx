@@ -114,7 +114,7 @@ export const Setting = () => {
     }
   }
   return (
-    <Layout breadcrumbs={[]} title="Setting">
+    <Layout>
       <div className="flex min-h-screen w-full flex-col">
         <main className="flex flex-col items-start gap-4 md:gap-8">
           <Tabs defaultValue="project" className="w-full">
