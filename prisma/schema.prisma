@@ -72,15 +72,15 @@ model Projects {
   id                   String                 @id @default(cuid())
   owner                String
   name                 String
+  secret               String
   options              Json
   codecs               Json
-  projectUrl           String                 @map("project_url")
-  sipUri               String                 @map("sip_uri")
   createdAt            DateTime               @default(now()) @map("created_at")
   updatedAt            DateTime               @updatedAt @map("updated_at")
   ProjectMembers       ProjectMembers[]
   ProjectAccessKey     ProjectAccessKey[]
   ProjectMemberInvites ProjectMemberInvites[]
+  ProjectSipNumber     ProjectSipNumber[]
 }
 
 enum ProjectMemberRole {
@@ -120,4 +120,14 @@ model ProjectAccessKey {
 
   project Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model ProjectSipNumber {
+  id        Int    @id @default(autoincrement())
+  projectId String @map("project_id")
+  number    String
+  incoming  Json
+  outgoing  Json
+
+  project Projects @relation(fields: [projectId], references: [id], onDelete: Cascade)
 }
