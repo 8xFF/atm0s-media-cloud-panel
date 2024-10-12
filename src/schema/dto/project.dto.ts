@@ -1,3 +1,4 @@
+import { ProjectSipIncomingDto, ProjectSipOutgoingDto } from './project-number.dto'
 import { Type } from 'class-transformer'
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator'
 
@@ -91,4 +92,16 @@ export type ProjectDataSync = {
   apps: {
     [key: string]: { secret: string }
   }
+}
+
+export type ProjectNumberSyncData = {
+  number: string
+  app_id: string
+  app_secret: string
+  outgoing: ProjectSipOutgoingDto
+  incoming: ProjectSipIncomingDto
+}
+
+export type ProjectNumberSync = {
+  numbers: ProjectNumberSyncData[]
 }

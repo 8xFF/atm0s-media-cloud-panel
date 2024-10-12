@@ -1,7 +1,17 @@
 import generateApiKey from 'generate-api-key'
 import { Body, createHandler, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe } from 'next-api-decorators'
 import { ProjectRepository } from '@/repositories'
-import { ProjectCreateDto, ProjectDataSync, ProjectInfo, ProjectList, ProjectUpdateDto, StatusResponseDto } from '@/schema'
+import { ProjectNumberRepository } from '@/repositories/projects/project-number.repository'
+import {
+  ProjectCreateDto,
+  ProjectDataSync,
+  ProjectInfo,
+  ProjectList,
+  ProjectNumberSync,
+  ProjectNumberSyncData,
+  ProjectUpdateDto,
+  StatusResponseDto,
+} from '@/schema'
 import { ApiKeyGuard, NextAuthGuard, SessionUserId } from '@/utils/api'
 
 class ProjectRouters {
@@ -52,6 +62,26 @@ class ProjectRouters {
 
     return {
       apps: retval,
+    }
+  }
+
+  @Get('/sync_numbers')
+  @ApiKeyGuard()
+  async syncProjectNumbers(): Promise<ProjectNumberSync> {
+    const numbers = await ProjectNumberRepository.Instance.list({}, { project: true })
+
+    const data: ProjectNumberSyncData[] = numbers.map((n) => {
+      return {
+        number: n.number,
+        app_id: n.project!.id,
+        app_secret: n.project!.secret,
+        outgoing: n.outgoing,
+        incoming: n.incoming,
+      }
+    })
+
+    return {
+      numbers: data,
     }
   }
 
