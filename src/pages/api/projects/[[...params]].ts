@@ -1,14 +1,14 @@
+import generateApiKey from 'generate-api-key'
 import { Body, createHandler, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe } from 'next-api-decorators'
 import { ProjectRepository } from '@/repositories'
-import { ProjectCreateDto, ProjectInfo, ProjectList, ProjectUpdateDto, StatusResponseDto } from '@/schema'
-import { NextAuthGuard, SessionUserId } from '@/utils/api'
+import { ProjectCreateDto, ProjectDataSync, ProjectInfo, ProjectList, ProjectUpdateDto, StatusResponseDto } from '@/schema'
+import { ApiKeyGuard, NextAuthGuard, SessionUserId } from '@/utils/api'
 
-// @UseMiddleware(NextAuthGuard)
 class ProjectRouters {
   @Post('')
   @NextAuthGuard()
   async createProject(@Body(ValidationPipe) body: ProjectCreateDto, @SessionUserId() userId: string): Promise<ProjectInfo> {
-    console.log('body', body)
+    console.log(userId)
     const defaultOptions = {
       createAutomatically: true,
       adminMute: false,
@@ -22,18 +22,37 @@ class ProjectRouters {
     }
 
     //TODO: integrate with media server to get token or url
-    const projectUrl = 'local.media.8xff.com'
-    const sipUri = 'sip:local.sip.8xff.com'
+    const secret = generateApiKey() as string
 
-    const project = ProjectRepository.Instance.create({
+    const project = await ProjectRepository.Instance.create({
       name: body.name,
       owner: userId,
       options: defaultOptions,
       codec: defaultCodecs,
-      projectUrl,
-      sipUri,
+      secret,
     })
+
     return project
+  }
+
+  @Get('/sync')
+  @ApiKeyGuard()
+  async syncProject(): Promise<ProjectDataSync> {
+    const projects = await ProjectRepository.Instance.list({}, { secret: true })
+
+    const retval: {
+      [key: string]: { secret: string }
+    } = {}
+
+    projects.forEach((p) => {
+      retval[p.id] = {
+        secret: p.secret,
+      }
+    })
+
+    return {
+      apps: retval,
+    }
   }
 
   @Get('/:projectId')
@@ -47,6 +66,7 @@ class ProjectRouters {
     if (!project) {
       throw new NotFoundException('Project not found')
     }
+
     return project
   }
 

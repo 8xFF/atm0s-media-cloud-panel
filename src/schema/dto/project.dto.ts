@@ -70,12 +70,7 @@ export class ProjectInfo {
   owner!: string
 
   @IsString()
-  @IsNotEmpty()
-  projectUrl!: string
-
-  @IsString()
-  @IsNotEmpty()
-  sipUri!: string
+  secret!: string
 
   @ValidateNested()
   @Type(() => ProjectOptions)
@@ -90,4 +85,10 @@ export class ProjectList {
   @ValidateNested({ each: true })
   @Type(() => ProjectInfo)
   list!: ProjectInfo[]
+}
+
+export type ProjectDataSync = {
+  apps: {
+    [key: string]: { secret: string }
+  }
 }
