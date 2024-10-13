@@ -12,6 +12,10 @@ import { envServer } from '@/config/env-server'
 import { ProjectAccessKeyRepository, ProjectRepository, UserRepository } from '@/repositories'
 import { AuthUser } from '@/schema'
 
+const accessKeyHeader = 'x-access-key'
+const secretKeyHeader = 'x-secret-key'
+const apiKeyHeader = 'x-api-key'
+
 export interface GroupToken {
   server_endpoint: string
   token: string
@@ -50,22 +54,19 @@ export function ApiExceptionHandler(error: unknown, req: NextApiRequest, res: Ne
 export const NextAuthGuard = createMiddlewareDecorator(
   async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
     const token = await getToken({ req, secret: envServer.NEXTAUTH_SECRET })
-    // console.log('token', token)
+    console.log('token', token)
     if (token) {
       ;(req as any).userId = (token as any).user.id
       ;(req as any).user = (token as any).user
       return next()
     }
 
-    if (req.headers['api-key'] && req.headers['secret-key']) {
-      const apiKey = req.headers['api-key'] as string
-      const secretKey = req.headers['secret-key'] as string
-
-      console.log('apiKey', apiKey)
-      console.log('secretKey', secretKey)
+    if (req.headers[accessKeyHeader] && req.headers[secretKeyHeader]) {
+      const accessKey = req.headers[accessKeyHeader] as string
+      const secretKey = req.headers[secretKeyHeader] as string
 
       const keyEntity = await ProjectAccessKeyRepository.Instance.detail({
-        apiKey,
+        apiKey: accessKey,
       })
 
       if (!keyEntity) {
@@ -91,6 +92,21 @@ export const NextAuthGuard = createMiddlewareDecorator(
     }
 
     throw new UnauthorizedException('Unauthorized')
+  }
+)
+
+export const ApiKeyGuard = createMiddlewareDecorator(
+  async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
+    const apiKey = (req.headers[apiKeyHeader] as string) || (req.query.apiKey as string)
+    if (!apiKey) {
+      throw new UnauthorizedException('Unauthorized')
+    }
+
+    if (apiKey !== envServer.API_KEY) {
+      throw new UnauthorizedException('Unauthorized')
+    }
+
+    next()
   }
 )
 

@@ -1,5 +1,4 @@
 import { Prisma } from '@prisma/client'
-import { JsonValue } from '@prisma/client/runtime/library'
 import { Codecs, ProjectInfo, ProjectOptions } from '@/schema'
 import { getPrisma } from '@/utils/prisma'
 
@@ -8,13 +7,16 @@ export type ProjectCreateDto = {
   owner: string
   options: ProjectOptions
   codec: Codecs
-  projectUrl: string
-  sipUri: string
+  secret: string
 }
 
 export type ProjectFilter = {
   id?: string
   userId?: string
+}
+
+export type ProjectField = {
+  secret: boolean
 }
 
 export class ProjectRepository {
@@ -31,15 +33,14 @@ export class ProjectRepository {
     this.prismaCli = getPrisma()
   }
 
-  async create(project: ProjectCreateDto) {
+  async create(project: ProjectCreateDto, field?: ProjectField) {
     const res = await this.prismaCli.projects.create({
       data: {
         name: project.name,
         owner: project.owner,
         options: project.options as any,
         codecs: project.codec as any,
-        projectUrl: project.projectUrl,
-        sipUri: project.sipUri,
+        secret: project.secret,
         ProjectMembers: {
           create: {
             userId: project.owner,
@@ -49,23 +50,23 @@ export class ProjectRepository {
       },
     })
 
-    return this.toEntity(res)
+    return this.toEntity(res, field)
   }
 
-  async detail(filter: ProjectFilter): Promise<ProjectInfo | undefined> {
+  async detail(filter: ProjectFilter, field?: ProjectField): Promise<ProjectInfo | undefined> {
     const res = await this.prismaCli.projects.findFirst({ where: this.toQuery(filter) })
     if (!res) {
       return undefined
     }
 
-    return this.toEntity(res)
+    return this.toEntity(res, field)
   }
 
-  async list(filter: ProjectFilter): Promise<ProjectInfo[]> {
+  async list(filter: ProjectFilter, field?: ProjectField): Promise<ProjectInfo[]> {
     const res = await this.prismaCli.projects.findMany({
       where: this.toQuery(filter),
     })
-    return res.map(this.toEntity)
+    return res.map((e) => this.toEntity(e, field))
   }
 
   async updateById(id: string, modify: Partial<ProjectCreateDto>): Promise<ProjectInfo | undefined> {
@@ -104,25 +105,32 @@ export class ProjectRepository {
     }
   }
 
-  private toEntity(data: {
-    id: string
-    owner: string
-    name: string
-    options: JsonValue
-    codecs: JsonValue
-    projectUrl: string
-    sipUri: string
-    createdAt: Date
-    updatedAt: Date
-  }): ProjectInfo {
-    return {
+  private toEntity(
+    data: {
+      id: string
+      owner: string
+      name: string
+      secret: string
+      options: Prisma.JsonValue
+      codecs: Prisma.JsonValue
+      createdAt: Date
+      updatedAt: Date
+    },
+    field?: ProjectField
+  ): ProjectInfo {
+    const res = {
       id: data.id,
       owner: data.owner,
       name: data.name,
       options: data.options as any,
       codecs: data.codecs as any,
-      projectUrl: data.projectUrl,
-      sipUri: data.sipUri,
+      secret: '',
     }
+
+    if (field && field.secret) {
+      res.secret = data.secret
+    }
+
+    return res
   }
 }
