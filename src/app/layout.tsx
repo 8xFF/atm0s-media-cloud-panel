@@ -1,8 +1,8 @@
-import './globals.css'
+import { AppProvider } from '@/providers'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { Toaster } from 'sonner'
-import { MainProvider } from '@/providers'
+import './globals.css'
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <MainProvider>{children}</MainProvider>
+        <AppProvider>{children}</AppProvider>
         <Toaster richColors />
       </body>
     </html>

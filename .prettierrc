@@ -13,10 +13,6 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "vueIndentScriptAndStyle": false,
-  "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss", "prettier-plugin-packagejson"],
-  "importOrderSortSpecifiers": true,
-  "importOrderCaseInsensitive": true,
-  "importOrder": ["^@[a-z](.*)$", "^@/(.*)$"],
-  "importOrderParserPlugins": ["typescript", "decorators-legacy"],
+  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss", "prettier-plugin-packagejson"],
   "tailwindFunctions": ["cn", "tv", "cx", "clsx", "cva"]
 }

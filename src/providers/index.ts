@@ -1,7 +1,5 @@
-'use client'
-
-export * from './main-provider'
-
+export * from './app-provider'
+export * from './private-provider'
+export * from './react-query-provider'
 export * from './recoil-provider'
 export * from './theme-provider'
-export * from './react-query-provider'

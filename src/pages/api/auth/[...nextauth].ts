@@ -1,9 +1,9 @@
+import { envServer } from '@/config/env-server'
+import { getPrisma } from '@/utils/prisma'
+import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import NextAuth, { NextAuthOptions } from 'next-auth'
 import GithubProvider from 'next-auth/providers/github'
 import GoogleProvider from 'next-auth/providers/google'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { envServer } from '@/config/env-server'
-import { getPrisma } from '@/utils/prisma'
 
 const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(getPrisma()),
@@ -16,8 +16,8 @@ const authOptions: NextAuthOptions = {
   },
   providers: [
     GoogleProvider({
-      clientId: envServer.GOOGLE_CLIENT_ID,
-      clientSecret: envServer.GOOGLE_CLIENT_SECRET,
+      clientId: envServer.GOOGLE_ID,
+      clientSecret: envServer.GOOGLE_SECRET,
     }),
     GithubProvider({
       clientId: envServer.GITHUB_ID,
@@ -25,18 +25,21 @@ const authOptions: NextAuthOptions = {
     }),
   ],
   callbacks: {
-    jwt: async ({ token, user, account }) => {
+    jwt: async (params) => {
+      const { token, account, user } = params
       if (account && user) {
         return {
-          accessToken: account.accessToken,
-          // accessTokenExpires: Date.now() + account.expires_at * 1000,
           user,
         }
       }
 
       return token
     },
-    session: async ({ user, session }: any) => {
+    session: async (params: any) => {
+      const { user, session, token } = params
+      if (token) {
+        session.user = token.user
+      }
       if (user) {
         session.user.role = user.role
         session.user.status = user.status
