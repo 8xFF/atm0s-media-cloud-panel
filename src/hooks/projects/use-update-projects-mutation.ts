@@ -1,16 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
 
-type CreateProjectsMutationPayload = {
+type UpdateProjectsMutationPayload = {
+  id: string
   data: {
     name: string
   }
 }
 
-export const useCreateProjectsMutation = () => {
+export const useUpdateProjectsMutation = () => {
   return useMutation({
-    mutationFn: async (payload: CreateProjectsMutationPayload) => {
-      const res = await fetch('/api/projects', {
-        method: 'POST',
+    mutationFn: async (payload: UpdateProjectsMutationPayload) => {
+      const res = await fetch(`/api/projects/${payload?.id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },

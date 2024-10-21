@@ -13,7 +13,7 @@ const formSchema = z.object({
 })
 
 export const CreateApp = () => {
-  const { mutate } = useCreateProjectsMutation()
+  const { mutate: onCreateProjects } = useCreateProjectsMutation()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -21,8 +21,10 @@ export const CreateApp = () => {
     },
   })
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    mutate({
-      name: values.name,
+    onCreateProjects({
+      data: {
+        name: values.name,
+      },
     })
   }
   return (

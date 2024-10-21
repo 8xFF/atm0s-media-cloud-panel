@@ -6,14 +6,14 @@ export const useGetProjectsQuery = () => {
   return useQuery<ProjectList>({
     queryKey: [QueryKey.GetProjects],
     queryFn: async () => {
-      return await fetch('/api/projects', {
+      const res = await fetch('/api/projects', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
       })
-        .then((res) => res.json())
-        .then((data) => data)
+      const data = await res.json()
+      return data
     },
   })
 }
