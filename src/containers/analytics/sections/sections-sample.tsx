@@ -1,7 +1,7 @@
+import { Button, Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components'
+import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { map } from 'lodash'
 import { ArrowUpRightIcon } from 'lucide-react'
-import { GitHubLogoIcon } from '@radix-ui/react-icons'
-import { Button, Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components'
 
 type Props = {}
 
@@ -32,12 +32,12 @@ const SAMPLE = [
 
 export const SectionsSample: React.FC<Props> = () => {
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
       {map(SAMPLE, (item) => (
-        <Card key={item.title} className="flex flex-col justify-between">
+        <Card key={item.title} className="flex flex-col justify-between shadow-sm">
           <CardHeader>
             <CardTitle>{item.title}</CardTitle>
-            <CardDescription className="max-w-lg text-balance leading-relaxed">{item.description}</CardDescription>
+            <CardDescription>{item.description}</CardDescription>
           </CardHeader>
           <CardFooter className="gap-4">
             <Button size="sm" className="gap-2">

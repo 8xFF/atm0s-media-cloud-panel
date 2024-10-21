@@ -1,9 +1,9 @@
 'use client'
 
-import { Line, LineChart, CartesianGrid, XAxis } from 'recharts'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { useMemo, useState } from 'react'
+import { CartesianGrid, Line, LineChart, XAxis } from 'recharts'
 
 const chartData = [
   { date: '2024-04-01', upstream: 222, downstream: 150 },
@@ -125,7 +125,7 @@ export const SectionsBandwidth: React.FC<Props> = () => {
     []
   )
   return (
-    <Card>
+    <Card className="shadow-sm">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
         <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
           <CardTitle>Bandwidth</CardTitle>

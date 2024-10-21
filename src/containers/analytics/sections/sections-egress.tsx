@@ -6,7 +6,7 @@ type Props = {}
 
 export const SectionsEgress: React.FC<Props> = () => {
   return (
-    <Card className="h-full">
+    <Card className="h-full shadow-sm">
       <CardHeader>
         <CardTitle>Egress</CardTitle>
       </CardHeader>

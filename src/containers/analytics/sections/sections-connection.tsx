@@ -1,6 +1,6 @@
+import { Card, CardDescription, CardHeader, CardTitle, Tooltip, TooltipContent, TooltipTrigger } from '@/components'
 import { map } from 'lodash'
 import { CircleAlertIcon } from 'lucide-react'
-import { Card, CardDescription, CardHeader, CardTitle, Tooltip, TooltipContent, TooltipTrigger } from '@/components'
 
 type Props = {}
 
@@ -26,7 +26,7 @@ export const SectionsConnection: React.FC<Props> = () => {
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
       {map(CONNECTION, (item) => (
-        <Card key={item.title} className="w-full">
+        <Card key={item.title} className="w-full shadow-sm">
           <CardHeader>
             <CardTitle>
               <div className="flex items-center justify-between">

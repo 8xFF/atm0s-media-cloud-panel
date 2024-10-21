@@ -59,7 +59,7 @@ type Props = {}
 
 export const SectionsUser: React.FC<Props> = () => {
   return (
-    <Card>
+    <Card className="shadow-sm">
       <CardHeader>
         <CardTitle>Users</CardTitle>
       </CardHeader>

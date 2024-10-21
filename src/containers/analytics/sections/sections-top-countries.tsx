@@ -6,7 +6,7 @@ type Props = {}
 
 export const SectionsTopCountries: React.FC<Props> = () => {
   return (
-    <Card>
+    <Card className="shadow-sm">
       <CardHeader>
         <CardTitle>Top countries</CardTitle>
       </CardHeader>

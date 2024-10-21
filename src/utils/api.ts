@@ -1,4 +1,6 @@
-import { validateSecretHash } from './hash'
+import { envServer } from '@/config/env-server'
+import { ProjectAccessKeyRepository, ProjectRepository, UserRepository } from '@/repositories'
+import { AuthUser } from '@/schema'
 import {
   createMiddlewareDecorator,
   createParamDecorator,
@@ -8,9 +10,7 @@ import {
 } from 'next-api-decorators'
 import { getToken } from 'next-auth/jwt'
 import { NextApiRequest, NextApiResponse } from 'next/types'
-import { envServer } from '@/config/env-server'
-import { ProjectAccessKeyRepository, ProjectRepository, UserRepository } from '@/repositories'
-import { AuthUser } from '@/schema'
+import { validateSecretHash } from './hash'
 
 const accessKeyHeader = 'x-access-key'
 const secretKeyHeader = 'x-secret-key'
@@ -56,7 +56,7 @@ export const NextAuthGuard = createMiddlewareDecorator(
     const token = await getToken({ req, secret: envServer.NEXTAUTH_SECRET })
     console.log('token', token)
     if (token) {
-      ;(req as any).userId = (token as any).user.id
+      ;(req as any).userId = (token as any).user?.id
       ;(req as any).user = (token as any).user
       return next()
     }
