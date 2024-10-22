@@ -43,10 +43,9 @@ export const Layout: React.FC<Props> = ({ children }) => {
 const TitleLoader = () => {
   return (
     <div className="w-28 animate-pulse">
-      <div className="space-y-2">
+      <div className="space-y-1">
         <div className="grid grid-cols-3 gap-4">
           <div className="col-span-2 h-2 rounded bg-slate-200" />
-          <div className="col-span-1 h-2 rounded bg-slate-200" />
         </div>
         <div className="h-2 rounded bg-slate-200" />
       </div>

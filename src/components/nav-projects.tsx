@@ -15,13 +15,15 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from '@/components/ui'
+} from '@/components'
+import { useDeleteProjectsMutation } from '@/hooks'
 import { selectedProjectState } from '@/recoils'
 import { useRecoilState } from 'recoil'
 
 export const NavProjects = () => {
   const { isMobile } = useSidebar()
   const [selectedProject, setSelectedProject] = useRecoilState(selectedProjectState)
+  const { mutate: onDeleteProjects } = useDeleteProjectsMutation()
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -29,8 +31,14 @@ export const NavProjects = () => {
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton>
-            <CheckIcon />
-            <span>{selectedProject?.name}</span>
+            {selectedProject ? (
+              <>
+                <CheckIcon />
+                <span>{selectedProject?.name}</span>
+              </>
+            ) : (
+              <TitleLoader />
+            )}
           </SidebarMenuButton>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -57,5 +65,18 @@ export const NavProjects = () => {
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
+  )
+}
+
+const TitleLoader = () => {
+  return (
+    <div className="w-28 animate-pulse">
+      <div className="space-y-1">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2 h-2 rounded bg-slate-200" />
+        </div>
+        <div className="h-2 rounded bg-slate-200" />
+      </div>
+    </div>
   )
 }

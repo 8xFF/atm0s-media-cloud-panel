@@ -4,8 +4,8 @@ type Props = {
   children: React.ReactNode
 }
 
-const LayoutCreatApp: React.FC<Props> = ({ children }) => {
+const LayoutCreatProject: React.FC<Props> = ({ children }) => {
   return <PrivateProvider>{children}</PrivateProvider>
 }
 
-export default LayoutCreatApp
+export default LayoutCreatProject
