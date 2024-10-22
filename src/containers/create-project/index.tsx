@@ -12,7 +12,7 @@ const formSchema = z.object({
   }),
 })
 
-export const CreateApp = () => {
+export const CreateProject = () => {
   const { mutate: onCreateProjects } = useCreateProjectsMutation()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -35,7 +35,7 @@ export const CreateApp = () => {
         </div>
         <div className="h-[1px] w-full bg-divide" />
         <div className="grid gap-4">
-          <p className="text-balance text-center text-2xl capitalize">Create your first app</p>
+          <p className="text-balance text-center text-2xl capitalize">Create your first project</p>
           <p className="text-center text-sm text-muted-foreground">
             You will be brought to your project dashboard after creating your application.
           </p>
@@ -46,9 +46,9 @@ export const CreateApp = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>App name</FormLabel>
+                    <FormLabel>Project name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your app name" {...field} />
+                      <Input placeholder="Enter your project name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

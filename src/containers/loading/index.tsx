@@ -17,7 +17,7 @@ export const Loading = () => {
     if (!isEmpty(projects)) {
       router.push('/')
     } else {
-      router.push('/create-app')
+      router.push('/create-project')
     }
   }, [projects, router, setSelectedProject])
 
