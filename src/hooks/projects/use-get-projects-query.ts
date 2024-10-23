@@ -15,5 +15,6 @@ export const useGetProjectsQuery = () => {
       const data = await res.json()
       return data as ProjectList
     },
+    refetchOnWindowFocus: false,
   })
 }
