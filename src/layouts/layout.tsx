@@ -17,10 +17,10 @@ export const Layout: React.FC<Props> = ({ children }) => {
   const [selectedProject, setSelectedProject] = useRecoilState(selectedProjectState)
 
   useEffect(() => {
-    if (!isEmpty(projects)) {
+    if (!selectedProject && !isEmpty(projects)) {
       setSelectedProject(projects?.list?.[0])
     }
-  }, [projects, setSelectedProject])
+  }, [projects, selectedProject, setSelectedProject])
 
   return (
     <SidebarProvider>

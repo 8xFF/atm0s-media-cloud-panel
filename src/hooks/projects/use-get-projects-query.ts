@@ -3,7 +3,7 @@ import { ProjectList } from '@/schema'
 import { useQuery } from '@tanstack/react-query'
 
 export const useGetProjectsQuery = () => {
-  return useQuery<ProjectList>({
+  return useQuery({
     queryKey: [QueryKey.GetProjects],
     queryFn: async () => {
       const res = await fetch('/api/projects', {
@@ -13,7 +13,7 @@ export const useGetProjectsQuery = () => {
         },
       })
       const data = await res.json()
-      return data
+      return data as ProjectList
     },
   })
 }

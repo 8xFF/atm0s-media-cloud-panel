@@ -2,18 +2,23 @@
 
 import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input } from '@/components'
 import { useCreateProjectsMutation } from '@/hooks'
+import { selectedProjectState } from '@/recoils'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
+import { useSetRecoilState } from 'recoil'
 import { z } from 'zod'
 
 const formSchema = z.object({
-  name: z.string().min(2, {
+  name: z.string().min(1, {
     message: 'This field is required',
   }),
 })
 
 export const CreateProject = () => {
+  const router = useRouter()
   const { mutate: onCreateProjects } = useCreateProjectsMutation()
+  const setSelectedProject = useSetRecoilState(selectedProjectState)
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -21,11 +26,19 @@ export const CreateProject = () => {
     },
   })
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    onCreateProjects({
-      data: {
-        name: values.name,
+    onCreateProjects(
+      {
+        data: {
+          name: values.name,
+        },
       },
-    })
+      {
+        onSuccess: (rs) => {
+          setSelectedProject(rs)
+          router.push('/')
+        },
+      }
+    )
   }
   return (
     <div className="flex h-screen items-center justify-center p-4 md:p-0">

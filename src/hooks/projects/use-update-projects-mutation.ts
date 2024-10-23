@@ -1,6 +1,6 @@
 import { QueryKey } from '@/apis'
 import { useToast } from '@/components'
-import { Codecs, ProjectOptions } from '@/schema'
+import { Codecs, ProjectInfo, ProjectOptions } from '@/schema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 type UpdateProjectsMutationPayload = {
@@ -25,7 +25,7 @@ export const useUpdateProjectsMutation = () => {
         body: JSON.stringify(payload?.data),
       })
       const data = await res.json()
-      return data
+      return data as ProjectInfo
     },
     onSuccess: () => {
       queryClient.refetchQueries({
