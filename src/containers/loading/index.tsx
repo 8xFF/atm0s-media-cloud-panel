@@ -19,7 +19,7 @@ export const Loading = () => {
           router.push('/projects/list')
         }
       } else {
-        router.push('/create-project')
+        router.push('/projects/create')
       }
     }
   }, [isFetchingProjects, projects, router])
