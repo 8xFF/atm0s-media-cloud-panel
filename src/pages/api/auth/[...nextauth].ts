@@ -18,10 +18,12 @@ const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: envServer.GOOGLE_ID,
       clientSecret: envServer.GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     GithubProvider({
       clientId: envServer.GITHUB_ID,
       clientSecret: envServer.GITHUB_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
   ],
   callbacks: {

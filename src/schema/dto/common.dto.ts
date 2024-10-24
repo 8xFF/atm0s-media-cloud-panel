@@ -19,3 +19,9 @@ export class AuthUser {
   email!: string
   image!: string | null
 }
+
+export type ListData<T> = {
+  list: T[]
+  page: number
+  currentPage: number
+}
