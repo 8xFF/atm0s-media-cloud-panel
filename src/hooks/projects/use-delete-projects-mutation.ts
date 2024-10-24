@@ -1,36 +1,32 @@
 import { QueryKey } from '@/apis'
 import { useToast } from '@/components'
-import { ProjectInfo } from '@/schema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-type CreateProjectsMutationPayload = {
-  data: {
-    name: string
-  }
+type DeleteProjectsMutationPayload = {
+  id: string
 }
 
-export const useCreateProjectsMutation = () => {
+export const useDeleteProjectsMutation = () => {
   const { toast } = useToast()
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (payload: CreateProjectsMutationPayload) => {
-      const res = await fetch('/api/projects', {
-        method: 'POST',
+    mutationFn: async (payload: DeleteProjectsMutationPayload) => {
+      const res = await fetch(`/api/projects/${payload?.id}`, {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(payload?.data),
       })
       const data = await res.json()
-      return data as ProjectInfo
+      return data
     },
     onSuccess: () => {
       queryClient.refetchQueries({
         queryKey: [QueryKey.GetProjects],
       })
       toast({
-        title: 'Project created',
-        description: 'Your project has been created successfully.',
+        title: 'Project deleted',
+        description: 'Your project has been deleted successfully.',
         duration: 2000,
       })
     },

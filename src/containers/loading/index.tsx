@@ -1,25 +1,28 @@
 'use client'
 
 import { useGetProjectsQuery } from '@/hooks'
-import { selectedProjectState } from '@/recoils'
-import { isEmpty } from 'lodash'
+import { isArray, isEmpty } from 'lodash'
 import { LoaderCircleIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { useSetRecoilState } from 'recoil'
 
 export const Loading = () => {
   const router = useRouter()
-  const { data: projects } = useGetProjectsQuery()
-  const setSelectedProject = useSetRecoilState(selectedProjectState)
+  const { data: projects, isFetching: isFetchingProjects } = useGetProjectsQuery()
 
   useEffect(() => {
-    if (!isEmpty(projects)) {
-      router.push('/')
-    } else {
-      router.push('/create-app')
+    if (!isFetchingProjects && isArray(projects?.list)) {
+      if (!isEmpty(projects?.list)) {
+        if (projects?.list?.length === 1) {
+          router.push(`/projects/${projects?.list?.[0]?.id}`)
+        } else {
+          router.push('/projects/list')
+        }
+      } else {
+        router.push('/create-project')
+      }
     }
-  }, [projects, router, setSelectedProject])
+  }, [isFetchingProjects, projects, router])
 
   return (
     <div className="flex h-screen w-screen items-center justify-center">

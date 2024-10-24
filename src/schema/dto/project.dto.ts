@@ -1,6 +1,6 @@
-import { ProjectSipIncomingDto, ProjectSipOutgoingDto } from './project-number.dto'
 import { Type } from 'class-transformer'
 import { IsBoolean, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator'
+import { ProjectSipIncomingDto, ProjectSipOutgoingDto } from './project-number.dto'
 
 export class ProjectCreateDto {
   @IsString()

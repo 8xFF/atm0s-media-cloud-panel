@@ -53,7 +53,11 @@ export function ApiExceptionHandler(error: unknown, req: NextApiRequest, res: Ne
 
 export const NextAuthGuard = createMiddlewareDecorator(
   async (req: NextApiRequest, res: NextApiResponse, next: NextFunction) => {
-    const token = await getToken({ req, secret: envServer.NEXTAUTH_SECRET })
+    const token = await getToken({
+      req,
+      secret: envServer.NEXTAUTH_SECRET,
+      secureCookie: process.env.NODE_ENV === 'production' ? true : false,
+    })
     console.log('token', token)
     if (token) {
       ;(req as any).userId = (token as any).user?.id

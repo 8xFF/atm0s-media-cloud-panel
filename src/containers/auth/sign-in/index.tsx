@@ -4,7 +4,7 @@ import { Button } from '@/components'
 import { IconBrandGithub, IconBrandGoogle } from '@tabler/icons-react'
 import { signIn } from 'next-auth/react'
 
-const CALLBACK_URL = '/loading'
+const CALLBACK_URL = '/'
 
 export const SignIn = () => {
   return (
