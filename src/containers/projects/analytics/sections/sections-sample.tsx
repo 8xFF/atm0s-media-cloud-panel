@@ -17,7 +17,7 @@ const SAMPLE = [
   },
   {
     title: 'Video Conferencing',
-    description: 'LiveKit Meet is a Zoom-style video conferencing app built with LiveKit Components.',
+    description: '8xFF Meet is a Zoom-style video conferencing app built with 8xFF Components.',
   },
   {
     title: 'Gaming With Unity WebGL',
