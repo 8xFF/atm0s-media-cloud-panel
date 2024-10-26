@@ -1,9 +1,8 @@
-import generateApiKey from 'generate-api-key'
-import { Body, createHandler, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe } from 'next-api-decorators'
 import { ProjectRepository } from '@/repositories'
 import { ProjectNumberRepository } from '@/repositories/projects/project-number.repository'
 import {
   ProjectCreateDto,
+  ProjectData,
   ProjectDataSync,
   ProjectInfo,
   ProjectList,
@@ -13,12 +12,13 @@ import {
   StatusResponseDto,
 } from '@/schema'
 import { ApiKeyGuard, NextAuthGuard, SessionUserId } from '@/utils/api'
+import generateApiKey from 'generate-api-key'
+import { Body, createHandler, Delete, Get, NotFoundException, Param, Post, Put, ValidationPipe } from 'next-api-decorators'
 
 class ProjectRouters {
   @Post('')
   @NextAuthGuard()
   async createProject(@Body(ValidationPipe) body: ProjectCreateDto, @SessionUserId() userId: string): Promise<ProjectInfo> {
-    console.log(userId)
     const defaultOptions = {
       createAutomatically: true,
       adminMute: false,
@@ -32,7 +32,9 @@ class ProjectRouters {
     }
 
     //TODO: integrate with media server to get token or url
-    const secret = generateApiKey() as string
+    const secret = generateApiKey({
+      pool: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+    }) as string
 
     const project = await ProjectRepository.Instance.create({
       name: body.name,
@@ -50,18 +52,16 @@ class ProjectRouters {
   async syncProject(): Promise<ProjectDataSync> {
     const projects = await ProjectRepository.Instance.list({}, { secret: true })
 
-    const retval: {
-      [key: string]: { secret: string }
-    } = {}
-
-    projects.forEach((p) => {
-      retval[p.id] = {
-        secret: p.secret,
+    const apps = projects.map((p): ProjectData => {
+      return {
+        app_id: p.id,
+        app_secret: p.secret,
+        hook: undefined,
       }
     })
 
     return {
-      apps: retval,
+      apps,
     }
   }
 
