@@ -88,10 +88,14 @@ export class ProjectList {
   list!: ProjectInfo[]
 }
 
+export type ProjectData = {
+  app_id: string
+  app_secret: string
+  hook: string | undefined
+}
+
 export type ProjectDataSync = {
-  apps: {
-    [key: string]: { secret: string }
-  }
+  apps: ProjectData[]
 }
 
 export type ProjectNumberSyncData = {
