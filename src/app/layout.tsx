@@ -3,6 +3,7 @@ import { AppProvider } from '@/providers'
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import 'reflect-metadata'
+import 'reflect-metadata/lite'
 import './globals.css'
 
 const geistSans = localFont({
